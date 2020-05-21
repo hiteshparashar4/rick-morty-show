@@ -7,6 +7,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Filters from '../Filters';
 import useStyles from "./home.styles";
 import remove from 'lodash/remove';
+import NoData from '../NoData';
 
 function RickMortyShow() {
   const classes = useStyles();
@@ -66,6 +67,7 @@ function RickMortyShow() {
   console.log(state);
   const { characters, isLoading, page, info, filters, selectedFilters } = state;
   const { pages } = info;
+  const visibleCount = characters.filter(char => char.visible === true).length;
 
   return (
     <>
@@ -89,7 +91,11 @@ function RickMortyShow() {
                   onChange={onPageChange}
                 />
               </div>
-              <CharacterList page={page} characters={characters} selectedFilters={selectedFilters} />
+              {
+                visibleCount > 0 ? <CharacterList page={page} characters={characters} selectedFilters={selectedFilters} />
+                : <NoData />
+              }
+              
             </div>
           )}
         </div>

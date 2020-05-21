@@ -7,7 +7,7 @@ export default function CharacterList(props) {
   const classes = useStyles();
 
   const { characters } = props;
-
+  
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>

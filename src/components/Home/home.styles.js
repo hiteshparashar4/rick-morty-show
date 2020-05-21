@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme) => ({
     },
     mainContainer: {
         minHeight: '700px',
+        width: '100%',
         [theme.breakpoints.up('lg')]: {
             maxWidth: '1000px',
         }
