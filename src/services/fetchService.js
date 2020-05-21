@@ -1,54 +1,53 @@
 import axios from 'axios';
 import { API_URL } from "../utils/constants";
 
-const get = async (url, page = 1) => {
+const filterKeys = ['species', 'gender', 'origin'];
 
-    const apiUrl = `${url}?page=${page}`;
+const fetchData = (updateState, page = 1) => {
+    const apiUrl = `${API_URL}?page=${page}`;
+    axios.get(apiUrl).then(res => {
+      const chars = res.data.results.map(item => {
+        return {
+          ...item,
+          visible: true
+        }
+      });
 
-    const res = await axios.get(apiUrl);
-    if(res.status === 200) {
-        return res.data;
-    }
+      const filters = [];
+      const selectedFilters = [];
 
-    return null;
-}
+      filterKeys.forEach(filterKey => {
+        const filterObj = { name: filterKey, filterItems: [] };
+    
+        chars.map(char => {
+          const filterItem = filterKey === 'origin' ? (char[filterKey] && char[filterKey].name) : char[filterKey] || '';
+          if(!filterObj.filterItems.includes(filterItem)) {
+            filterObj.filterItems.push(filterItem);
+            selectedFilters.push(`${filterKey}__${filterItem}`);
+          }
+        })
+    
+        filters.push(filterObj);
+      });
 
-const fetchData = async (updateState, page = 1) => {
-    const res = await get(API_URL, page);
-    if (res === null) {
+      updateState({
+        info: res.data.info,
+        characters: chars,
+        filters: filters,
+        selectedFilters: selectedFilters,
+        isLoading: false
+      })
+    })
+    .catch(() => {
       updateState({
         error: true,
         isLoading: false,
         info: {},
-        characters: []
+        characters: [],
+        filters: [],
+        selectedFilters: []
       });
-    }
-    updateState({
-      info: res.info,
-      characters: res.results,
-      isLoading: false
-    })
-
-
-    // that.setState({
-    //   isLoading: true,
-    //   characters: [],
-    //   page: page
-    // }, async () => {
-    //   const res = await get(API_URL, page);
-    //   if (res === null) {
-    //     that.setState({
-    //       error: true,
-    //       isLoading: false
-    //     });
-    //   }
-    //   that.setState({
-    //     info: res.info,
-    //     characters: res.results,
-    //     isLoading: false
-    //   });
-    // })
+    });
   }
-
 
 export default fetchData;

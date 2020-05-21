@@ -11,7 +11,7 @@ class App extends React.Component {
         return (
         <React.Fragment>
             <CssBaseline />
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" style={{padding: 0}}>
                 <RickMortyShow />
             </Container>
         </React.Fragment>

@@ -1,7 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-
 import useStyles from './characterList.styles';
 
 export default function CharacterList(props) {
@@ -14,7 +13,11 @@ export default function CharacterList(props) {
       <Grid container spacing={2}>
         {
             characters.map(item => {
-                const { id, image, name  } = item;
+                const { id, image, name, status, species, gender, origin, visible  } = item;
+
+                if(!visible) {
+                    return null;
+                }
 
                 return <Grid item xs={6} sm={6} md={3} key={id} className={classes.gridItem}>
                         <Paper elevation={3} className={classes.paper}>
@@ -26,7 +29,30 @@ export default function CharacterList(props) {
                                 </div>
                             </div>
                             <div className={classes.charDescription}>
-                                
+                                <div className={classes.charDetail}>
+                                    <span>STATUS</span>
+                                    <span className={classes.textAlignRight}>{status}</span>
+                                    
+                                </div>
+                                <div className={classes.charDetail}>
+                                    <span>SPECIES</span>
+                                    <span className={classes.textAlignRight}>{species}</span>
+                                    
+                                </div>
+                                <div className={classes.charDetail}>
+                                    <span>GENDER</span>
+                                    <span className={classes.textAlignRight}>{gender}</span>
+                                    
+                                </div>
+                                <div className={classes.charDetail} style={{border: 'none'}}>
+                                    <span>ORIGIN</span>
+                                    <span className={classes.textAlignRight}>{origin.name}</span>
+                                    
+                                </div>
+                                {/* <div className={classes.charDetail} style={{border: 'none'}}>
+                                    <span>LAST LOCATION</span>
+                                    <span className={classes.textAlignRight}>{}</span>
+                                </div> */}
                             </div>
                         </Paper>
                     </Grid>

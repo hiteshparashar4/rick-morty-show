@@ -3,9 +3,10 @@ import CharacterList from "../CharacterList";
 import fetchData from "../../services/fetchService";
 import Pagination from "@material-ui/lab/Pagination";
 import Hidden from "@material-ui/core/Hidden";
-import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Filters from '../Filters';
 import useStyles from "./home.styles";
+import remove from 'lodash/remove';
 
 function RickMortyShow() {
   const classes = useStyles();
@@ -14,6 +15,9 @@ function RickMortyShow() {
     error: false,
     info: {},
     characters: [],
+    filters: [
+    ],
+    selectedFilters: []
   });
 
   useEffect(() => {
@@ -24,8 +28,43 @@ function RickMortyShow() {
     fetchData(updateState, p);
   };
 
+  const handleFilterChange = (type, filterKey, checked) => {
+    const { selectedFilters, characters } = state;
+    const filterItem = `${type}__${filterKey}`;
+
+    if(checked) {
+      selectedFilters.push(filterItem);
+    } else {
+      remove(selectedFilters, i => {
+        return i === filterItem
+      });
+    }
+
+    const newCharacters = characters.map(char => {
+      const charTypeValue = type === 'origin' ? char[type].name : char[type];
+
+      if(checked) {
+        if(charTypeValue === filterKey) {
+          char.visible = true
+        }
+      } else {
+        if(charTypeValue === filterKey) {
+          char.visible = false
+        }
+      }
+
+      return char;
+    });
+
+    updateState({
+      ...state,
+      selectedFilters: selectedFilters,
+      characters: newCharacters
+    });
+  };
+
   console.log(state);
-  const { characters, isLoading, page, info } = state;
+  const { characters, isLoading, page, info, filters, selectedFilters } = state;
   const { pages } = info;
 
   return (
@@ -34,10 +73,10 @@ function RickMortyShow() {
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Hidden mdDown>
-          <Paper style={{ width: "200px" }}>mdDown</Paper>
+            <Filters filters={filters} selectedFilters={selectedFilters} handleFilterChange={handleFilterChange} />
         </Hidden>
 
-        <div style={{ maxWidth: "1000px" }}>
+        <div className={classes.mainContainer}>
           {isLoading ? (
             <CircularProgress />
           ) : (
@@ -50,7 +89,7 @@ function RickMortyShow() {
                   onChange={onPageChange}
                 />
               </div>
-              <CharacterList page={page} characters={characters} />
+              <CharacterList page={page} characters={characters} selectedFilters={selectedFilters} />
             </div>
           )}
         </div>
