@@ -16,7 +16,7 @@ const get = async (url, page = 1) => {
 const fetchData = async (updateState, page = 1) => {
     const res = await get(API_URL, page);
     if (res === null) {
-      that.setState({
+      updateState({
         error: true,
         isLoading: false,
         info: {},
