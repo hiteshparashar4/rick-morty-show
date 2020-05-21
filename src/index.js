@@ -1,18 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import './mystyle.scss';
-import '../assets/favicon.png';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import RickMortyShow from "./components/Home";
+import "./global.scss";
+import "../assets/favicon.png";
 
-class MyComponent extends React.Component {
-
+class App extends React.Component {
     render() {
         return (
-            <h1>Working</h1>
+        <React.Fragment>
+            <CssBaseline />
+            <Container maxWidth="lg">
+                <RickMortyShow />
+            </Container>
+        </React.Fragment>
         );
     }
-
 }
 
 const wrapper = document.getElementById("container");
-wrapper ? ReactDOM.render(<MyComponent />, wrapper) : false;
-
+wrapper ? ReactDOM.render(<App />, wrapper) : false;
