@@ -3,6 +3,23 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
     },
+    loadingSign: {
+        textAlign: 'center'
+    },
+    bodyContainer: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    searchSortFilterContainer: {
+        padding: '0 0 20px 0',
+        display: 'flex',
+        justifyContent: 'space-around',
+        flexWrap: 'wrap',
+        [theme.breakpoints.up('lg')]: {
+            justifyContent: 'space-between',
+            flexWrap: 'no-wrap',
+        }
+    },
     mainContainer: {
         minHeight: '700px',
         width: '100%',

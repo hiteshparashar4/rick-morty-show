@@ -4,9 +4,13 @@ import fetchData from "../../services/fetchService";
 import Pagination from "@material-ui/lab/Pagination";
 import Hidden from "@material-ui/core/Hidden";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Filters from '../Filters';
+import SideBarFilters from '../SideBarFilters';
+import SearchFilter from '../SearchFilter';
+import SortFilter from '../SortFilter';
 import useStyles from "./home.styles";
 import remove from 'lodash/remove';
+import orderBy from 'lodash/orderBy';
+import cloneDeep from 'lodash/cloneDeep';
 import NoData from '../NoData';
 
 function RickMortyShow() {
@@ -18,7 +22,9 @@ function RickMortyShow() {
     characters: [],
     filters: [
     ],
-    selectedFilters: []
+    selectedFilters: [],
+    searchText: '',
+    sortOrder: 'asc'
   });
 
   useEffect(() => {
@@ -64,8 +70,41 @@ function RickMortyShow() {
     });
   };
 
+  const handleSearchChange = e => {
+    const { characters } = state;
+    const searchText = e.target.value.trim().toLowerCase();
+
+    const newChars = characters.map(item => {
+      if(item.name.toLowerCase().includes(searchText)) {
+        item.visible = true;
+      } else {
+        item.visible = false;
+      }
+      
+      return item;
+    })
+
+    updateState({
+      ...state,
+      characters: newChars,
+      searchText: searchText
+    })
+  };
+
+  const onSortChange = e => {
+    const order = e.target.value;
+    const characters =  cloneDeep(state.characters);
+    const sorted = orderBy(characters, ['name'], [order]);
+
+    updateState({
+      ...state,
+      characters: sorted,
+      sortOrder: order
+    })
+  }
+
   console.log(state);
-  const { characters, isLoading, page, info, filters, selectedFilters } = state;
+  const { characters, isLoading, page, info, filters, selectedFilters, searchText, sortOrder } = state;
   const { pages } = info;
   const visibleCount = characters.filter(char => char.visible === true).length;
 
@@ -73,14 +112,16 @@ function RickMortyShow() {
     <>
       <div className={classes.header}>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div className={classes.bodyContainer}>
         <Hidden mdDown>
-            <Filters filters={filters} selectedFilters={selectedFilters} handleFilterChange={handleFilterChange} />
+            <SideBarFilters filters={filters} selectedFilters={selectedFilters} handleFilterChange={handleFilterChange} />
         </Hidden>
 
         <div className={classes.mainContainer}>
           {isLoading ? (
-            <CircularProgress />
+            <div className={classes.loadingSign}>
+                <CircularProgress />
+            </div>
           ) : (
             <div>
               <div className={classes.paginationContainer}>
@@ -90,6 +131,10 @@ function RickMortyShow() {
                   color="primary"
                   onChange={onPageChange}
                 />
+              </div>
+              <div className={classes.searchSortFilterContainer}>
+                  <SearchFilter handleSearchChange={handleSearchChange} searchText={searchText} />
+                  <SortFilter onSortChange={onSortChange} sortOrder={sortOrder} />
               </div>
               {
                 visibleCount > 0 ? <CharacterList page={page} characters={characters} selectedFilters={selectedFilters} />

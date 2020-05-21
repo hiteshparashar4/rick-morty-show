@@ -9,7 +9,7 @@ export default function Filters(props) {
   const { filters, selectedFilters, handleFilterChange } = props;
 
   const getSubStr = (str) => {
-    const sub = str.length > 15 ? `${str.substring(0, 15)}...` : str;
+    const sub = str.length > 18 ? `${str.substring(0, 18)}...` : str;
     return sub;
   };
 
