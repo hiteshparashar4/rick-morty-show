@@ -6,7 +6,7 @@ import useStyles from "./filters.styles";
 
 export default function Filters(props) {
   const classes = useStyles();
-  const { filters, selectedFilters, handleFilterChange } = props;
+  const { isLoading, filters, selectedFilters, handleFilterChange } = props;
 
   const getSubStr = (str) => {
     const sub = str.length > 18 ? `${str.substring(0, 18)}...` : str;
@@ -24,7 +24,7 @@ export default function Filters(props) {
               {filterItems.map((item) => {
                 const checked = selectedFilters.includes( `${name}__${item}`);
                 return (
-                  <div key={item} title={item}>
+                  !isLoading && <div key={item} title={item}>
                     <FormControlLabel
                       control={
                         <Checkbox checked={checked} name={item} color="primary" onChange={(e) => {

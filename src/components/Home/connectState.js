@@ -5,8 +5,8 @@ import fetchData from "../../services/fetchService";
 import {
   getSideBarFilterResults,
   getSearchFilterResult,
-  getDefaultState,
 } from "../../utils/helpers.js";
+import { getDefaultState } from "../../utils/constants";
 
 export const connectState = Component => {
   const withState = props => {

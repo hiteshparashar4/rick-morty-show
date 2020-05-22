@@ -12,7 +12,7 @@ import { connectState } from './connectState'
 
 function RickMortyShow(props) {
   const classes = useStyles();
-  const { page, info, filters, selectedFilters, searchText, sortOrder } = props;
+  const { isLoading, page, info, filters, selectedFilters, searchText, sortOrder } = props;
   const { pages } = info;
   const { handleFilterChange, onPageChange, handleSearchChange, onSortChange } = props;
   
@@ -50,6 +50,7 @@ function RickMortyShow(props) {
       <div className={classes.bodyContainer}>
         <Hidden mdDown>
           <SideBarFilters
+            isLoading={isLoading}
             filters={filters}
             selectedFilters={selectedFilters}
             handleFilterChange={handleFilterChange}
@@ -74,7 +75,6 @@ function RickMortyShow(props) {
           {getCharacterList()}
         </div>
       </div>
-      <div className={classes.footer}></div>
     </React.Fragment>
   );
 }

@@ -47,10 +47,6 @@ export default function CharacterList(props) {
                                     <span className={classes.textAlignRight}>{origin.name}</span>
                                     
                                 </div>
-                                {/* <div className={classes.charDetail} style={{border: 'none'}}>
-                                    <span>LAST LOCATION</span>
-                                    <span className={classes.textAlignRight}>{}</span>
-                                </div> */}
                             </div>
                         </Paper>
                     </Grid>
