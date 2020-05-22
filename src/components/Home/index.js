@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CharacterList from "../CharacterList";
-import fetchData from "../../services/fetchService";
 import Pagination from "@material-ui/lab/Pagination";
 import Hidden from "@material-ui/core/Hidden";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -8,87 +7,21 @@ import SideBarFilters from "../SideBarFilters";
 import SearchFilter from "../SearchFilter";
 import SortFilter from "../SortFilter";
 import useStyles from "./home.styles";
-import orderBy from "lodash/orderBy";
-import cloneDeep from "lodash/cloneDeep";
 import NoData from "../NoData";
-import {
-  getSideBarFilterResults,
-  getSearchFilterResult,
-  getDefaultState,
-} from "../../utils/helpers";
+import { connectState } from './connectState'
 
-function RickMortyShow() {
+function RickMortyShow(props) {
   const classes = useStyles();
-  const [state, setState] = useState(getDefaultState());
-
-  useEffect(() => {
-    fetchData(setState, 1);
-  }, []);
-
-  useEffect(() => {
-    fetchData(setState, state.page);
-  }, [state.page]);
-
-  const onPageChange = (e, p) => {
-    setState({
-      ...state,
-      isLoading: true,
-      page: p,
-    });
-  };
-
-  const handleFilterChange = (type, filterKey, checked) => {
-    const { characters, searchText } = state;
-
-    const result = getSideBarFilterResults(
-      characters,
-      type,
-      filterKey,
-      checked,
-      searchText
-    );
-
-    setState({
-      ...state,
-      selectedFilters: result.selectedFilters,
-      characters: result.characters,
-      searchedChars: result.searchedChars,
-    });
-  };
-
-  const handleSearchChange = (e) => {
-    const characters = cloneDeep(state.characters);
-    const searchText = e.target.value.trim().toLowerCase();
-
-    const result = getSearchFilterResult(characters, searchText);
-
-    setState({
-      ...state,
-      searchedChars: result.searchedChars,
-      searchText: searchText,
-    });
-  };
-
-  const onSortChange = (e) => {
-    const order = e.target.value;
-    const characters = cloneDeep(state.characters);
-    const sorted = orderBy(characters, ["name"], [order]);
-
-    setState({
-      ...state,
-      characters: sorted,
-      sortOrder: order,
-    });
-  };
-
+  const { page, info, filters, selectedFilters, searchText, sortOrder } = props;
+  const { pages } = info;
+  const { handleFilterChange, onPageChange, handleSearchChange, onSortChange } = props;
+  
   const getCharacterList = () => {
-    const { isLoading, characters, page, searchedChars } = state;
+    const { isLoading, characters, page, searchedChars } = props;
     let containsData = true;
 
-    if (
-      characters.filter((char) => char.visible === true).length === 0 ||
-      (searchText.length > 0 && searchedChars.length === 0)
-    ) {
+    if ((characters.filter((char) => char.visible === true).length === 0) ||
+      (searchText.length > 0 && searchedChars.length === 0)) {
       containsData = false;
     }
 
@@ -111,12 +44,8 @@ function RickMortyShow() {
     }
   };
 
-  console.log(state);
-  const { page, info, filters, selectedFilters, searchText, sortOrder } = state;
-  const { pages } = info;
-
   return (
-    <>
+    <React.Fragment>
       <div className={classes.header}></div>
       <div className={classes.bodyContainer}>
         <Hidden mdDown>
@@ -146,8 +75,8 @@ function RickMortyShow() {
         </div>
       </div>
       <div className={classes.footer}></div>
-    </>
+    </React.Fragment>
   );
 }
 
-export default RickMortyShow;
+export default connectState(RickMortyShow);
