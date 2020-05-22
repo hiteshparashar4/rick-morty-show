@@ -11,32 +11,26 @@ import useStyles from "./home.styles";
 import orderBy from "lodash/orderBy";
 import cloneDeep from "lodash/cloneDeep";
 import NoData from "../NoData";
+import {
+  getSideBarFilterResults,
+  getSearchFilterResult,
+  getDefaultState,
+} from "../../utils/helpers";
 
 function RickMortyShow() {
   const classes = useStyles();
-  const [state, updateState] = useState({
-    isLoading: true,
-    error: false,
-    info: {},
-    page: 1,
-    characters: [],
-    searchedChars: [],
-    filters: [],
-    selectedFilters: [],
-    searchText: "",
-    sortOrder: "asc",
-  });
+  const [state, setState] = useState(getDefaultState());
 
   useEffect(() => {
-    fetchData(updateState, 1);
+    fetchData(setState, 1);
   }, []);
 
   useEffect(() => {
-    fetchData(updateState, state.page);
+    fetchData(setState, state.page);
   }, [state.page]);
 
   const onPageChange = (e, p) => {
-    updateState({
+    setState({
       ...state,
       isLoading: true,
       page: p,
@@ -45,64 +39,32 @@ function RickMortyShow() {
 
   const handleFilterChange = (type, filterKey, checked) => {
     const { characters, searchText } = state;
-    const selectedFilters = [];
 
-    const newCharacters = characters.map((char) => {
-      const typeValue = type === "origin" ? char[type].name : char[type];
-      if (typeValue === filterKey) {
-        char.visible = checked;
-      }
+    const result = getSideBarFilterResults(
+      characters,
+      type,
+      filterKey,
+      checked,
+      searchText
+    );
 
-      if (char.visible === true) {
-        const speciesFilter = `species__${char.species}`;
-        const genderFilter = `gender__${char.gender}`;
-        const originFilter = `origin__${char.origin.name}`;
-
-        if (!selectedFilters.includes(speciesFilter))
-          selectedFilters.push(speciesFilter);
-        if (!selectedFilters.includes(genderFilter))
-          selectedFilters.push(genderFilter);
-        if (!selectedFilters.includes(originFilter))
-          selectedFilters.push(originFilter);
-      }
-      return char;
-    });
-
-    const searchedChars = newCharacters.filter((item) => {
-      if (
-        item.visible === true &&
-        item.name.toLowerCase().includes(searchText)
-      ) {
-        return true;
-      }
-      return false;
-    });
-
-    updateState({
+    setState({
       ...state,
-      selectedFilters: selectedFilters,
-      characters: newCharacters,
-      searchedChars: searchedChars,
+      selectedFilters: result.selectedFilters,
+      characters: result.characters,
+      searchedChars: result.searchedChars,
     });
   };
 
   const handleSearchChange = (e) => {
-    const searchedChars = cloneDeep(state.characters);
+    const characters = cloneDeep(state.characters);
     const searchText = e.target.value.trim().toLowerCase();
 
-    const chars = searchedChars.filter((item) => {
-      if (
-        item.visible === true &&
-        item.name.toLowerCase().includes(searchText)
-      ) {
-        return true;
-      }
-      return false;
-    });
+    const result = getSearchFilterResult(characters, searchText);
 
-    updateState({
+    setState({
       ...state,
-      searchedChars: chars,
+      searchedChars: result.searchedChars,
       searchText: searchText,
     });
   };
@@ -112,34 +74,46 @@ function RickMortyShow() {
     const characters = cloneDeep(state.characters);
     const sorted = orderBy(characters, ["name"], [order]);
 
-    updateState({
+    setState({
       ...state,
       characters: sorted,
       sortOrder: order,
     });
   };
 
-  console.log(state);
-  const {
-    characters,
-    searchedChars,
-    isLoading,
-    page,
-    info,
-    filters,
-    selectedFilters,
-    searchText,
-    sortOrder,
-  } = state;
-  const { pages } = info;
+  const getCharacterList = () => {
+    const { isLoading, characters, page, searchedChars } = state;
+    let containsData = true;
 
-  let containsData = true;
-  if (characters.filter((char) => char.visible === true).length === 0) {
-    containsData = false;
-  }
-  if (searchText.length > 0 && searchedChars.length === 0) {
-    containsData = false;
-  }
+    if (
+      characters.filter((char) => char.visible === true).length === 0 ||
+      (searchText.length > 0 && searchedChars.length === 0)
+    ) {
+      containsData = false;
+    }
+
+    if (isLoading) {
+      return (
+        <div className={classes.loadingSign}>
+          <CircularProgress />
+        </div>
+      );
+    } else if (containsData) {
+      return (
+        <CharacterList
+          page={page}
+          characters={searchText.length > 0 ? searchedChars : characters}
+          selectedFilters={selectedFilters}
+        />
+      );
+    } else {
+      return <NoData />;
+    }
+  };
+
+  console.log(state);
+  const { page, info, filters, selectedFilters, searchText, sortOrder } = state;
+  const { pages } = info;
 
   return (
     <>
@@ -152,42 +126,24 @@ function RickMortyShow() {
             handleFilterChange={handleFilterChange}
           />
         </Hidden>
-        {isLoading ? (
-          <div className={classes.loadingSign}>
-            <CircularProgress />
+        <div className={classes.mainContainer}>
+          <div className={classes.paginationContainer}>
+            <Pagination
+              page={page}
+              count={pages}
+              color="primary"
+              onChange={onPageChange}
+            />
           </div>
-        ) : (
-          <div className={classes.mainContainer}>
-            <div>
-              <div className={classes.paginationContainer}>
-                <Pagination
-                  page={page}
-                  count={pages}
-                  color="primary"
-                  onChange={onPageChange}
-                />
-              </div>
-              <div className={classes.searchSortFilterContainer}>
-                <SearchFilter
-                  handleSearchChange={handleSearchChange}
-                  searchText={searchText}
-                />
-                <SortFilter onSortChange={onSortChange} sortOrder={sortOrder} />
-              </div>
-              {containsData > 0 ? (
-                <CharacterList
-                  page={page}
-                  characters={
-                    searchText.length > 0 ? searchedChars : characters
-                  }
-                  selectedFilters={selectedFilters}
-                />
-              ) : (
-                <NoData />
-              )}
-            </div>
+          <div className={classes.searchSortFilterContainer}>
+            <SearchFilter
+              handleSearchChange={handleSearchChange}
+              searchText={searchText}
+            />
+            <SortFilter onSortChange={onSortChange} sortOrder={sortOrder} />
           </div>
-        )}
+          {getCharacterList()}
+        </div>
       </div>
       <div className={classes.footer}></div>
     </>

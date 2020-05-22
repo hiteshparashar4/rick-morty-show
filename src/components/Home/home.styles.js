@@ -5,7 +5,8 @@ const useStyles = makeStyles((theme) => ({
     },
     loadingSign: {
         textAlign: 'center',
-        width: '100%'
+        width: '100%',
+        marginTop: '50px'
     },
     bodyContainer: {
         display: 'flex',
