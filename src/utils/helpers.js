@@ -1,4 +1,4 @@
-const getDefaultState = () => {
+export const getDefaultState = () => {
     return {
         isLoading: true,
         error: false,
