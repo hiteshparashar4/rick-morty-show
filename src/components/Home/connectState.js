@@ -21,6 +21,8 @@ export const connectState = Component => {
     }, [state.page]);
 
     const onPageChange = (e, p) => {
+      if(p === state.page) return;
+      
       setState({
         ...state,
         isLoading: true,

@@ -7,6 +7,9 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: '16px',
         [theme.breakpoints.up('lg')]: {
             marginBottom: 0
+        },
+        '& .MuiFormControl-root': {
+            width: '200px'
         }
     }
   }));

@@ -8,20 +8,39 @@ import SearchFilter from "../SearchFilter";
 import SortFilter from "../SortFilter";
 import useStyles from "./home.styles";
 import NoData from "../NoData";
-import { connectState } from './connectState'
+import Flyout from '../Flyout';
+import { connectState } from "./connectState";
 
 function RickMortyShow(props) {
   const classes = useStyles();
-  const { isLoading, page, info, filters, selectedFilters, searchText, sortOrder } = props;
+  const {
+    isLoading,
+    page,
+    info,
+    filters,
+    selectedFilters,
+    searchText,
+    sortOrder,
+    toggleFlyout,
+    showFlyout
+  } = props;
   const { pages } = info;
-  const { handleFilterChange, onPageChange, handleSearchChange, onSortChange } = props;
-  
+  const {
+    handleFilterChange,
+    onPageChange,
+    handleSearchChange,
+    onSortChange,
+  } = props;
+  let containsData = true;
+
+
   const getCharacterList = () => {
     const { isLoading, characters, page, searchedChars } = props;
-    let containsData = true;
-
-    if ((characters.filter((char) => char.visible === true).length === 0) ||
-      (searchText.length > 0 && searchedChars.length === 0)) {
+    
+    if (
+      characters.filter((char) => char.visible === true).length === 0 ||
+      (searchText.length > 0 && searchedChars.length === 0)
+    ) {
       containsData = false;
     }
 
@@ -46,9 +65,19 @@ function RickMortyShow(props) {
 
   return (
     <React.Fragment>
-      <div className={classes.header}></div>
+      <Flyout
+        showFlyout={showFlyout}
+        toggleFlyout={toggleFlyout}
+      >
+        <SideBarFilters
+          isLoading={isLoading}
+          filters={filters}
+          selectedFilters={selectedFilters}
+          handleFilterChange={handleFilterChange}
+        />
+      </Flyout>
       <div className={classes.bodyContainer}>
-        <Hidden mdDown>
+        <Hidden smDown>
           <SideBarFilters
             isLoading={isLoading}
             filters={filters}

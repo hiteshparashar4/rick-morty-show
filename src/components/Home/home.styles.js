@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
     bodyContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        padding: '0 12px'
+        padding: '0 12px',
+        marginTop: '80px'
     },
     searchSortFilterContainer: {
         padding: '0 0 20px 0',
@@ -31,14 +32,16 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     header: {
-        height: "200px",
+        height: "50px",
         margin: "24px auto",
     },
     filtersContainer: {
         width: '200px'
     },
     paginationContainer: {
-        padding: '20px 0'
+        padding: '20px 0',
+        display: 'flex',
+        justifyContent: 'center'
     },
     footer: {
         height: "200px",

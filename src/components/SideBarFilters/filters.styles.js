@@ -2,7 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
     root: {
-        width: '230px'
+        width: '230px',
+        marginRight: '12px'
     },
     filterSection: {
         minHeight: '50px',
