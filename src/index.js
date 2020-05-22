@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import RickMortyShow from "./components/Home";
-import "./global.scss";
+import "./styles/global.scss";
 import "../assets/favicon.png";
 
 class App extends React.Component {
