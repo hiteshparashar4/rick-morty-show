@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
       }
     },
     imgContainer: {
-        position: 'relative'
+        position: 'relative',
+        minHeight: '200px'
     },
     imageDescription: {
       position: 'absolute',
@@ -49,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
       padding: '10px 0 3px 0',
       fontSize: '0.7rem',
       borderBottom: '0.5px solid #564f4f',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '0.55rem'
+      }
     },
     textAlignRight: {
       textAlign: 'right',

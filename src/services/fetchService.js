@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from "../utils/constants";
+import cloneDeep from 'lodash/cloneDeep';
 
 const filterKeys = ['species', 'gender', 'origin'];
 
@@ -33,9 +34,12 @@ const fetchData = (updateState, page = 1) => {
       updateState({
         info: res.data.info,
         characters: chars,
+        searchedChars: cloneDeep(chars),
         filters: filters,
         selectedFilters: selectedFilters,
-        isLoading: false
+        isLoading: false,
+        searchText: '',
+        page: page
       })
     })
     .catch(() => {
@@ -45,7 +49,8 @@ const fetchData = (updateState, page = 1) => {
         info: {},
         characters: [],
         filters: [],
-        selectedFilters: []
+        selectedFilters: [],
+        searchText: ''
       });
     });
   }

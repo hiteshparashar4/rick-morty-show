@@ -4,11 +4,13 @@ const useStyles = makeStyles((theme) => ({
     root: {
     },
     loadingSign: {
-        textAlign: 'center'
+        textAlign: 'center',
+        width: '100%'
     },
     bodyContainer: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        padding: '0 12px'
     },
     searchSortFilterContainer: {
         padding: '0 0 20px 0',

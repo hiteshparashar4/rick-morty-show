@@ -15,9 +15,7 @@ export default function CharacterList(props) {
             characters.map(item => {
                 const { id, image, name, status, species, gender, origin, visible  } = item;
 
-                if(!visible) {
-                    return null;
-                }
+                if(!visible) return null;
 
                 return <Grid item xs={6} sm={6} md={3} key={id} className={classes.gridItem}>
                         <Paper elevation={3} className={classes.paper}>
