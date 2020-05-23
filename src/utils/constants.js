@@ -4,7 +4,9 @@ export const getDefaultState = () => {
     return {
         isLoading: true,
         error: false,
-        info: {},
+        info: {
+          pages: 0
+        },
         page: 1,
         characters: [],
         searchedChars: [],

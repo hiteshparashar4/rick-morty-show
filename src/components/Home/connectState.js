@@ -5,19 +5,32 @@ import fetchData from "../../services/fetchService";
 import {
   getSideBarFilterResults,
   getSearchFilterResult,
+  getStateObj
 } from "../../utils/helpers.js";
 import { getDefaultState } from "../../utils/constants";
+
+const initialPage = 1;
 
 export const connectState = Component => {
   const withState = props => {
     const [state, setState] = useState(getDefaultState());
 
+    function getData(page) {
+      fetchData(page).then(response => {
+        const result = getStateObj(response)
+        setState({
+          ...result,
+          page: page
+        });
+      });
+    }
+
     useEffect(() => {
-      fetchData(setState, 1);
+      getData(initialPage);
     }, []);
 
     useEffect(() => {
-      fetchData(setState, state.page);
+      getData(state.page);
     }, [state.page]);
 
     const onPageChange = (e, p) => {
