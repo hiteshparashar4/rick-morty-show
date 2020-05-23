@@ -9,14 +9,20 @@ const useStyles = makeStyles({
     height: "100%",
     width: 0,
     transition: "0.2s",
-    background: "#fafafa",
-    overflow: "scroll",
+    background: "#fafafa"
+  },
+  header: {
+    display: "none",
+    marginBottom: '1px'
+  },
+  showHeader: {
+    display: 'block'
   },
   closeIcon: {
     position: "relative",
     top: 0,
     left: "12px",
-    fontSize: "45px",
+    fontSize: "43px",
     textDecoration: "none",
     color: "#1f232a",
     textAlign: "right",
@@ -28,7 +34,15 @@ const useStyles = makeStyles({
     width: "260px"
   },
   childrenContainer: {
-      padding: '12px'
+    display: 'none',
+    overflow: 'hidden'
+  },
+  showChildrenContainer: {
+      padding: '12px',
+      overflowY: 'scroll',
+      overflowX: 'hidden',
+      display: 'block',
+      height: props => props
   }
 });
 

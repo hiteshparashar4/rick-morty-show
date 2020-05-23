@@ -4,8 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const ip = require("ip");
 
-const useIpForDevServer = true;
-const host = useIpForDevServer ? ip.address() : 'localhost';
+const host = 'localhost';
 const port = 8085;
 const distDir = path.resolve(__dirname, "./dist");
 
@@ -87,8 +86,6 @@ module.exports = () => {
         template: "page-template.hbs",
         filename: "index.html",
       }),
-    ],
-
-    devtool:  '#inline-source-map',
+    ]
   }
 };

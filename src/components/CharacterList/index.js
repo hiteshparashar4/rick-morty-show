@@ -14,7 +14,7 @@ export default function CharacterList(props) {
       <Grid container spacing={2}>
         {
             characters.map(item => {
-                const { id, created, image, name, status, species, gender, origin, visible  } = item;
+                const { id, created, image, name, status, species, gender, origin, visible, location  } = item;
 
                 if(!visible) return null;
                 
@@ -45,10 +45,13 @@ export default function CharacterList(props) {
                                     <span className={classes.textAlignRight}>{gender}</span>
                                     
                                 </div>
-                                <div className={classes.charDetail} style={{border: 'none'}}>
+                                <div className={classes.charDetail}>
                                     <span>ORIGIN</span>
                                     <span className={classes.textAlignRight}>{origin.name}</span>
-                                    
+                                </div>
+                                <div className={classes.charDetail} style={{border: 'none'}}>
+                                    <span>LAST LOCATION</span>
+                                    <span className={classes.textAlignRight}>{location.name}</span>
                                 </div>
                             </div>
                         </Paper>
