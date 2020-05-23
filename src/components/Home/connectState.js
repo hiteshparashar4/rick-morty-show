@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import orderBy from "lodash/orderBy";
 import cloneDeep from "lodash/cloneDeep";
+import debounce from 'lodash/debounce';
 import fetchData from "../../services/fetchService";
 import {
   getSideBarFilterResults,
@@ -14,6 +15,7 @@ const initialPage = 1;
 export const connectState = Component => {
   const withState = props => {
     const [state, setState] = useState(getDefaultState());
+    const prevCount = usePrevious(state.page);
 
     function getData(page) {
       fetchData(page).then(response => {
@@ -25,12 +27,21 @@ export const connectState = Component => {
       });
     }
 
+    function usePrevious(value) {
+      const ref = useRef();
+      useEffect(() => {
+        ref.current = value;
+      }, [value]); 
+    
+      return ref.current;
+    }
+
     useEffect(() => {
       getData(initialPage);
     }, []);
 
     useEffect(() => {
-      getData(state.page);
+      prevCount && getData(state.page);
     }, [state.page]);
 
     const onPageChange = (e, p) => {
@@ -91,7 +102,7 @@ export const connectState = Component => {
       <Component
         {...props}
         {...state}
-        onPageChange={onPageChange}
+        onPageChange={debounce(onPageChange, 200)}
         handleFilterChange={handleFilterChange}
         handleSearchChange={handleSearchChange}
         onSortChange={onSortChange}
