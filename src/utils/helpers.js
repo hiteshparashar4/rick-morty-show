@@ -56,3 +56,17 @@ export const getSearchFilterResult = (characters, searchText) => {
         searchedChars
     };
 };
+
+export const getCreatedTimeString = d => {
+  const date = new Date(d);
+  const currentDate = new Date();
+
+  const years = currentDate.getFullYear() - date.getFullYear();
+  const months = currentDate.getMonth() - date.getMonth();
+  const days = currentDate.getDate() - date.getDate();
+  
+  if( years > 0 ) return  `created ${years} years ago`;
+  if( months > 0 ) return  `created ${months} months ago`;
+
+  return `created ${days} days ago`;
+}

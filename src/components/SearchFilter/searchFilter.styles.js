@@ -9,7 +9,13 @@ const useStyles = makeStyles((theme) => ({
             marginBottom: 0
         },
         '& .MuiFormControl-root': {
-            width: '200px'
+            width: '200px',
+            '& .Mui-focused': {
+                color: '#1f232a'
+            }
+        },
+        '& .MuiInput-underline:after': {
+            borderBottom: '2px solid #1f232a'
         }
     }
   }));

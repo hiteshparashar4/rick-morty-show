@@ -12,7 +12,10 @@ const useStyles = makeStyles(() => ({
         '& .MuiTypography-body1': {
             fontSize: '14px',
             lineHeight: '1.2'
-        }
+        },
+        '& .MuiCheckbox-colorPrimary.Mui-checked': {
+            color: '#1f232a'
+        },
     },
     filterTitle: {
         fontWeight: 'bold',

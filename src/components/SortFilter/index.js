@@ -12,7 +12,7 @@ export default function SortFilter(props) {
   return (
     <div className={classes.root}>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Order</InputLabel>
+        <InputLabel id="demo-simple-select-label">Sort by ID</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

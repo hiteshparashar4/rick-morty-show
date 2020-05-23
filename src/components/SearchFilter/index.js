@@ -8,7 +8,7 @@ export default function SearchFilter(props) {
 
   return (
     <div className={classes.root}>
-        <TextField id="search-text" label="Search By Name" value={searchText}  onChange={handleSearchChange} />
+        <TextField id="search-text" label="Search By Name" value={searchText} onChange={handleSearchChange} />
     </div>
   );
 }

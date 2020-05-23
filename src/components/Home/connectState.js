@@ -65,7 +65,7 @@ export const connectState = Component => {
     const onSortChange = e => {
       const order = e.target.value;
       const characters = cloneDeep(state.characters);
-      const sorted = orderBy(characters, ["name"], [order]);
+      const sorted = orderBy(characters, ["id"], [order]);
 
       setState({
         ...state,

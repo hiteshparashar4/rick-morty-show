@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import background from '../../../assets/dummy.jpg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -7,8 +8,10 @@ const useStyles = makeStyles((theme) => ({
     },
     gridItem: {
       transition: 'transform .5s',
-      '&:hover': {
+      [theme.breakpoints.up('md')]: {
+        '&:hover': {
           transform: 'scale3d(1.05, 1.05, 1)'
+        }
       }
     },
     paper: {
@@ -20,11 +23,13 @@ const useStyles = makeStyles((theme) => ({
     },
     imgContainer: {
         position: 'relative',
-        minHeight: '200px'
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        minHeight: '150px'
     },
     imageDescription: {
       position: 'absolute',
-      height: '25%',
+      minHeight: '25%',
       width: '100%',
       bottom: 0,
       backgroundColor: '#000',
@@ -32,6 +37,22 @@ const useStyles = makeStyles((theme) => ({
       padding: '5px',
       color: '#fafafa',
       textAlign: 'left',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+      '& .MuiPaper-root': {
+        backgroundColor: '#333333'
+      },
+      '& span': {
+        display: 'block'
+      }
+    },
+    name: {
+      fontSize: '16px',
+    },
+    id: {
+      fontWeight: 200,
+      fontSize: '10px'
     },
     charTitle: {
     },

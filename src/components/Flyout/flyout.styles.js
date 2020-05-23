@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     left: "12px",
     fontSize: "45px",
     textDecoration: "none",
-    color: "#000",
+    color: "#1f232a",
     textAlign: "right",
     background: "transparent",
     border: "none",

@@ -33,8 +33,7 @@ function RickMortyShow(props) {
   } = props;
   let containsData = true;
 
-
-  const getCharacterList = () => {
+  const getCharactersList = () => {
     const { isLoading, characters, page, searchedChars } = props;
     
     if (
@@ -101,7 +100,7 @@ function RickMortyShow(props) {
             />
             <SortFilter onSortChange={onSortChange} sortOrder={sortOrder} />
           </div>
-          {getCharacterList()}
+          {getCharactersList()}
         </div>
       </div>
     </React.Fragment>

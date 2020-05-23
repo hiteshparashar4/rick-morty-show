@@ -2,6 +2,7 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import useStyles from './characterList.styles';
+import { getCreatedTimeString } from '../../utils/helpers';
 
 export default function CharacterList(props) {
   const classes = useStyles();
@@ -13,17 +14,19 @@ export default function CharacterList(props) {
       <Grid container spacing={2}>
         {
             characters.map(item => {
-                const { id, image, name, status, species, gender, origin, visible  } = item;
+                const { id, created, image, name, status, species, gender, origin, visible  } = item;
 
                 if(!visible) return null;
+                
+                const elapsedTime = getCreatedTimeString(created);
 
-                return <Grid item xs={6} sm={6} md={3} key={id} className={classes.gridItem}>
+                return <Grid item xs={6} sm={4} md={3} key={id} className={classes.gridItem}>
                         <Paper elevation={3} className={classes.paper}>
                             <div className={classes.imgContainer}>
                                 <img src={image} width={'100%'} height={'auto'}/>
                                 <div className={classes.imageDescription}>
-                                    <span>{name}</span>
-                                    <span>{`id: ${id}`}</span>
+                                    <span className={classes.name}>{name}</span>
+                                    <span className={classes.id}>{`id: ${id} - ${elapsedTime}`}</span>
                                 </div>
                             </div>
                             <div className={classes.charDescription}>

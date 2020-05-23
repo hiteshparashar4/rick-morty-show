@@ -9,9 +9,9 @@ function Header(props) {
   return (
     <div className={classes.root}>
         <div className={classes.headerBody}>
-            <span onClick={toggleFlyout} className={classes.icon}>
+            <div onClick={toggleFlyout} className={classes.icon}>
                 <img src={ham} />
-            </span>
+            </div>
         </div>
     </div>
   );

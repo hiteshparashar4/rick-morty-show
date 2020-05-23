@@ -6,22 +6,27 @@ const useStyles = makeStyles((theme) => ({
     loadingSign: {
         textAlign: 'center',
         width: '100%',
-        marginTop: '50px'
+        marginTop: '50px',
+        '& .MuiCircularProgress-colorPrimary': {
+            color: '#1f232a'
+        }
     },
     bodyContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        padding: '0 12px',
-        marginTop: '80px'
+        marginTop: '80px',
+        [theme.breakpoints.up('md')]: {
+            padding: '0 12px',
+        }
     },
     searchSortFilterContainer: {
         padding: '0 0 20px 0',
         display: 'flex',
         justifyContent: 'space-around',
         flexWrap: 'wrap',
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('md')]: {
             justifyContent: 'space-between',
-            flexWrap: 'no-wrap',
+            flexWrap: 'unset',
         }
     },
     mainContainer: {
@@ -41,7 +46,10 @@ const useStyles = makeStyles((theme) => ({
     paginationContainer: {
         padding: '20px 0',
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        '& .MuiPaginationItem-textPrimary.Mui-selected': {
+            backgroundColor: '#1f232a'
+        }
     },
     footer: {
         height: "200px",

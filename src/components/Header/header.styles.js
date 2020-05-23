@@ -13,13 +13,15 @@ const useStyles = makeStyles((theme) => ({
         height: '50px',
         boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
         padding: '12px',
-        backgroundColor: '#000000',
+        backgroundColor: '#1f232a',
         [theme.breakpoints.up('md')]: {
             display: 'none'
         },
         '& img': {
             width: '25px',
-            height: 'auto'
+            height: 'auto',
+            position: 'relative',
+            top: '3px'
         }
     },
     icon: {
