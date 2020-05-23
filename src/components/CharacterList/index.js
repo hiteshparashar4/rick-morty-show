@@ -20,7 +20,7 @@ export default function CharacterList(props) {
                 
                 const elapsedTime = getCreatedTimeString(created);
 
-                return <Grid item xs={6} sm={4} md={3} key={id} className={classes.gridItem}>
+                return <Grid item xs={6} sm={3} md={3} key={id} className={classes.gridItem}>
                         <Paper elevation={3} className={classes.paper}>
                             <div className={classes.imgContainer}>
                                 <img src={image} width={'100%'} height={'auto'}/>
