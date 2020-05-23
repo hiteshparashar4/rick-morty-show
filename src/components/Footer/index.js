@@ -4,7 +4,7 @@ import githubImg from "../../../assets/github.png";
 import phone from "../../../assets/phone.png";
 import mail from "../../../assets/mail.png";
 
-function Footer(props) {
+function Footer() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -35,7 +35,7 @@ function Footer(props) {
             <div>
               <img src={githubImg} />
               <span>
-                <a href="https://github.com/hiteshparashar4/" target="_blank">
+                <a href="https://github.com/hiteshparashar4/" rel="noreferrer" target="_blank">
                   View Github profile
                 </a>
               </span>
