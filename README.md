@@ -13,6 +13,6 @@ This app was created by Hitesh Parashar (hitesh.parashar@publicissapient.com) to
 - Live Demo - https://hiteshparashar4.github.io/
 
 # License
-This is a private work of the original creator. Copying, destributing, mofifying of the work is disallowed., unless otherwise allowed in given writeen permission from the original author. 
+This is a private work of the original creator. Copying, destributing, mofifying of the work is disallowed, unless otherwise allowed in given written permission from the original author. 
 
 
