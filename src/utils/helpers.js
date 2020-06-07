@@ -37,6 +37,7 @@ export const getStateObj = (response) => {
 
     return {
       isLoading: false,
+      error: false,
       searchText: "",
       sortOrder: "asc",
       info: info,

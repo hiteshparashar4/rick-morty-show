@@ -4,12 +4,12 @@ import ham from '../../../assets/ham.png';
 
 function Header(props) {
   const classes = useStyles();
-  const { toggleFlyout } = props;
+  const { onMenuIconClick } = props;
 
   return (
     <div className={classes.root}>
         <div className={classes.headerBody}>
-            <div onClick={toggleFlyout} className={classes.icon}>
+            <div onClick={onMenuIconClick} className={classes.icon}>
                 <img src={ham} />
             </div>
         </div>

@@ -1,33 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import orderBy from "lodash/orderBy";
 import cloneDeep from "lodash/cloneDeep";
-import debounce from 'lodash/debounce';
-import fetchData from "../../services/fetchService";
+import debounce from "lodash/debounce";
+import fetchData from "../services/fetchService";
 import {
   getSideBarFilterResults,
   getSearchFilterResult,
   getStateObj
-} from "../../utils/helpers.js";
-import { getDefaultState } from "../../utils/constants";
+} from "../utils/helpers.js";
+import { getDefaultState } from "../utils/constants";
 
 const initialPage = 1;
 
 export const connectState = Component => {
   const withState = props => {
     const [state, setState] = useState(getDefaultState());
-    const prevCount = usePrevious(state.page);
 
-    function getData(page) {
-      fetchData(page).then(response => {
-        const result = getStateObj(response)
-        setState({
-          ...result,
-          page: page
-        });
-      });
-    }
-
-    function usePrevious(value) {
+    const usePrevious = (value) => {
       const ref = useRef();
       useEffect(() => {
         ref.current = value;
@@ -36,20 +25,43 @@ export const connectState = Component => {
       return ref.current;
     }
 
+    const prevCount = usePrevious(state.page);
+
+    const getData = (page) => {
+      fetchData(page).then(response => {
+        const result = getStateObj(response)
+        setState({
+          ...result,
+          page: page
+        });
+      })
+      .catch(() => {
+        const defaultState = getDefaultState();
+        setState({
+          ...defaultState,
+          isLoading: false,
+          error: true
+        });
+      });
+    }
+
     useEffect(() => {
       getData(initialPage);
     }, []);
 
     useEffect(() => {
-      prevCount && getData(state.page);
+      if(prevCount && prevCount !== state.page) {
+        setState({
+          ...state,
+          isLoading: true
+        });
+        getData(state.page);
+      }
     }, [state.page]);
 
     const onPageChange = (e, p) => {
-      if(p === state.page) return;
-      
       setState({
         ...state,
-        isLoading: true,
         page: p,
       });
     };

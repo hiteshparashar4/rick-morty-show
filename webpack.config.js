@@ -52,7 +52,7 @@ module.exports = () => {
           },
         },
         {
-          test: /\.(png|jpg|jpeg|gif|bmp)$/,
+          test: /\.(png|jpg|jpeg|gif|bmp|svg)$/,
           exclude: /node_modules/,
           loader: 'file-loader',
           options: {
@@ -86,6 +86,7 @@ module.exports = () => {
         template: "page-template.hbs",
         filename: "index.html",
       }),
-    ]
+    ],
+    devtool: '#inline-source-map'
   }
 };

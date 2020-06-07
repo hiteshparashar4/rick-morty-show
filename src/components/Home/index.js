@@ -8,21 +8,20 @@ import SearchFilter from "../SearchFilter";
 import SortFilter from "../SortFilter";
 import useStyles from "./home.styles";
 import NoData from "../NoData";
-import Flyout from '../Flyout';
-import { connectState } from "./connectState";
 
 function RickMortyShow(props) {
   const classes = useStyles();
   const {
     isLoading,
+    error,
     page,
     info,
     filters,
     selectedFilters,
     searchText,
     sortOrder,
-    toggleFlyout,
-    showFlyout
+    characters,
+    searchedChars
   } = props;
   const { pages } = info;
   const {
@@ -31,15 +30,11 @@ function RickMortyShow(props) {
     handleSearchChange,
     onSortChange,
   } = props;
-  let containsData = true;
 
   const getCharactersList = () => {
-    const { isLoading, characters, page, searchedChars } = props;
-    
-    if (
-      characters.filter((char) => char.visible === true).length === 0 ||
-      (searchText.length > 0 && searchedChars.length === 0)
-    ) {
+    let containsData = true;
+
+    if (characters.filter((char) => char.visible === true).length === 0 || (searchText.length > 0 && searchedChars.length === 0)) {
       containsData = false;
     }
 
@@ -58,23 +53,12 @@ function RickMortyShow(props) {
         />
       );
     } else {
-      return <NoData />;
+      return <NoData message={ error ? 'Network Error' : 'No Results Found' }/>;
     }
   };
 
   return (
     <React.Fragment>
-      <Flyout
-        showFlyout={showFlyout}
-        toggleFlyout={toggleFlyout}
-      >
-        <SideBarFilters
-          isLoading={isLoading}
-          filters={filters}
-          selectedFilters={selectedFilters}
-          handleFilterChange={handleFilterChange}
-        />
-      </Flyout>
       <div className={classes.bodyContainer}>
         <Hidden smDown>
           <SideBarFilters
@@ -107,4 +91,4 @@ function RickMortyShow(props) {
   );
 }
 
-export default connectState(RickMortyShow);
+export default RickMortyShow;
