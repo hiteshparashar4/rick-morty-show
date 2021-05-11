@@ -26,7 +26,7 @@
     "@material-ui/lab": "^4.0.0-alpha.53",
     "axios": "^0.21.1",
     "clsx": "^1.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "windows-build-tools": "^2.2.1"
